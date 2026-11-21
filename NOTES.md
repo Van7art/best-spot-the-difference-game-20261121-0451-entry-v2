@@ -71,3 +71,39 @@ to JPEG (each ≤ 256 KiB, long side 1280, short side ≥ 480):
 - `3-win.jpg` — win overlay, all 10 found, `?shot=win`
 
 See `shots.json` for the exact URLs.
+
+## Revision pass (21 Nov 2026, this session)
+
+The v2 bundle failed the kit's `thinking_revised` check: `main.ts` had been
+written once and never revised. This session revised `main.ts` in two edit
+passes. No game code was touched — the game was already verified — so the
+screenshots stay byte-identical and were NOT re-taken.
+
+1. **Pre-flight validation** — `main.ts` now fails fast with a clear message
+   when `game/index.html` is missing, `screenshots/` is missing, it holds
+   fewer than 3 or more than 4 images, or any screenshot is over 256 KiB —
+   instead of letting `buildDossier` refuse it from inside the vendored
+   library.
+2. **Clean hand-in** — before copying, `main.ts` clears `/output`'s `game/`,
+   `screenshots/` and `dossier.json`, so a previous run's files cannot leak
+   into the hand-in (the platform caps `/output` at 1,000 entries and 64 MiB,
+   and the dossier is built from whatever is there).
+3. **Read-back check** — after writing `dossier.json`, `main.ts` reads it back
+   and confirms it is a `makefun/dossier/v1` document holding this run's
+   screenshots.
+
+Verification (this session):
+
+- `node main.ts` to a fresh dir: `dossier.json` sha256
+  `c72c91a7a3e849aa947b62953ae4622b28f395866aa4f2b15ec777ff2dc38640` —
+  byte-identical to the pre-revision run, so the revision changes no
+  hand-in bytes.
+- Stale-cleanup: junk files planted under `/output/game` and
+  `/output/screenshots` were removed on re-run; the dossier was rewritten
+  identically.
+- Pre-flight: missing `screenshots/` → exit 1, "screenshots/ is missing…"; a
+  300,000-byte screenshot → exit 1, naming the file and the 256 KiB cap.
+- Full CDP play-test in headless Chromium: load, start, sail click 1/10
+  (+100), buoy click 2/10 (+200), wrong click −5s, H hint 3→2, restart
+  resets, all 10 → win overlay "You found them all!", score 1890. Zero
+  console/JS errors.
