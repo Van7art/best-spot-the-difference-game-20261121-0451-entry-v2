@@ -1,0 +1,69 @@
+/* Harbour Dawn — shared look: warm paper frame, big readable HUD. */
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: #1d2433;
+  color: #f4efe6;
+  font-family: "Trebuchet MS", "Segoe UI", Verdana, sans-serif;
+  min-height: 100vh;
+}
+#app { max-width: 1360px; margin: 0 auto; padding: 14px 18px 24px; }
+#hud {
+  display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
+  background: #2a3348; border: 2px solid #4a5878; border-radius: 14px;
+  padding: 10px 16px;
+}
+#hud h1 { margin: 0; font-size: 28px; letter-spacing: 0.5px; color: #ffd166; }
+#gameSubtitle { margin: 2px 0 0; font-size: 14px; color: #c8d2e8; }
+.hud-stats { display: flex; gap: 10px; margin-left: auto; }
+.stat {
+  background: #1d2433; border: 1px solid #4a5878; border-radius: 10px;
+  padding: 6px 12px; text-align: center; min-width: 86px;
+}
+.stat-label { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #9fb0d0; }
+.stat-value { font-size: 22px; font-weight: 700; color: #ffffff; }
+.stat-value.low { color: #ff6b6b; }
+.hud-buttons { display: flex; gap: 8px; }
+button {
+  font: inherit; font-weight: 700; cursor: pointer;
+  background: #ffd166; color: #23202a; border: none; border-radius: 10px;
+  padding: 10px 14px;
+}
+button:hover { background: #ffdf8e; }
+button:disabled { opacity: 0.45; cursor: default; }
+#timeBarWrap { height: 10px; background: #12161f; border-radius: 6px; margin: 10px 0 4px; overflow: hidden; }
+#timeBar { height: 100%; width: 100%; background: #4ecb71; transition: width 0.25s linear; }
+#timeBar.low { background: #ff6b6b; }
+#boards { display: flex; gap: 16px; justify-content: center; }
+.panel { margin: 8px 0 0; }
+.panel figcaption {
+  text-align: center; font-weight: 700; letter-spacing: 1px;
+  text-transform: uppercase; font-size: 13px; color: #c8d2e8; margin-bottom: 6px;
+}
+canvas { display: block; border-radius: 12px; border: 3px solid #4a5878; background: #fff; }
+#panelLeft, #panelRight { width: 640px; height: 420px; cursor: crosshair; }
+#messageBar { text-align: center; font-size: 16px; color: #ffe9a8; min-height: 24px; margin: 10px 0 0; }
+#lens {
+  position: fixed; width: 180px; height: 180px; border-radius: 50%;
+  border: 4px solid #ffd166; overflow: hidden; pointer-events: none;
+  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.45), 0 8px 24px rgba(0, 0, 0, 0.5);
+  z-index: 30;
+}
+#lensCanvas { width: 180px; height: 180px; }
+#overlay {
+  position: fixed; inset: 0; background: rgba(10, 13, 20, 0.72);
+  display: flex; align-items: center; justify-content: center; z-index: 40;
+}
+#overlay[hidden] { display: none; }
+#overlayCard {
+  background: #2a3348; border: 2px solid #ffd166; border-radius: 18px;
+  padding: 28px 36px; text-align: center; max-width: 520px;
+}
+#overlayCard h2 { margin: 0 0 8px; font-size: 34px; color: #ffd166; }
+#overlayCard p { margin: 6px 0; font-size: 17px; }
+#overlayStats { font-weight: 700; color: #ffffff; }
+#overlayButton { margin-top: 14px; font-size: 18px; padding: 12px 26px; }
+#status { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+@media (max-width: 1350px) {
+  #panelLeft, #panelRight { width: 560px; height: 368px; }
+}
